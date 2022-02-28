@@ -1,13 +1,20 @@
+from tkinter.filedialog import askdirectory
+from tkinter import Tk
 from importlib.resources import path
-import os
 import hashlib
+import shutil
+import time
+import os
 
-path = (os.path.expanduser('~/Desktop'))
-destination = os.path.expanduser('~/Desktop/Duplicates')
+Tk().withdraw() # File selector popup without full GUI
+path = askdirectory(title= "Select A Folder")
+destination = os.path.expanduser('~/Desktop/Duplicates/')
 duplicateDetected = False
 
 filesDict = dict()
 duplicateDict = dict()
+pathList = list()
+x = 1
 
 # List all folders and files
 for folder, sub, file in os.walk(path):
@@ -32,14 +39,49 @@ for key, value in duplicateDict.items():
     # If the list contains more than one element
     if len(value) > 1:
         duplicateDetected = True
-        # print(value)
-        
+        pathList.append(value)
 
-# FOLDER CREATION
-if duplicateDetected == True:
+# Find if duplicates are present
+if len(pathList) > 0 and duplicateDetected == True:
+    print('----------------------------------')
+    print('Duplicate Files Found.')
     if os.path.exists(destination) is True:
-        print('Duplicates folder already exists in:', destination)
-
+        print('Folder Already Exists. Continue...')
+        print('----------------------------------')
     else:
         os.makedirs(destination)
-        print('New Folder Created in:', destination)
+        print('Creating New Folder:', destination)
+        print('----------------------------------')
+    # Break down 2D list to different lists
+    for innerList in pathList:
+        # Break down to single list
+        for plainFilePath in innerList:
+            # Seperate filepath, filename and extension
+            filename = str(plainFilePath).split('\\')[-1]
+            filePhrase = str(filename).split('.')[0]
+            extension = str(filename).split('.')[-1]
+            if os.path.isfile(destination + filename):
+                print('Same Filename Found in Destination')
+                while os.path.isfile(destination + filename):
+                    rename = filePhrase + '-' + str(x) + '.' + extension
+                    print('Filename:', filename, 'Already Exists in:', destination)
+                    print('Renaming File To:', rename)
+                    time.sleep(1)
+                    # If the renaming is successfull break the loop
+                    if os.path.isfile(destination + rename) is False:
+                        shutil.move(plainFilePath , destination + '/' + rename)
+                        print('Moving File To:', plainFilePath , destination + '/' + rename)
+                        print('Success!')
+                        print('----------------------------------')
+                        break
+                    x +=1
+            else:
+                shutil.move(plainFilePath, destination)
+                print('Moving file:', plainFilePath, 'To:', destination + filename)
+                print('Success!')
+                print('----------------------------------')
+                continue
+else:
+    print('----------------------------------')
+    print('No Duplicate Files Found. Exiting.')
+    print('----------------------------------')
