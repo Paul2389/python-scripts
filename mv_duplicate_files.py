@@ -45,6 +45,8 @@ for key, value in duplicateDict.items():
 if len(pathList) > 0 and duplicateDetected == True:
     print('----------------------------------')
     print('Duplicate Files Found.')
+
+    # Folder Creation
     if os.path.exists(destination) is True:
         print('Folder Already Exists. Continue...')
         print('----------------------------------')
@@ -52,6 +54,7 @@ if len(pathList) > 0 and duplicateDetected == True:
         os.makedirs(destination)
         print('Creating New Folder:', destination)
         print('----------------------------------')
+
     # Break down 2D list to different lists
     for innerList in pathList:
         # Break down to single list
@@ -60,8 +63,11 @@ if len(pathList) > 0 and duplicateDetected == True:
             filename = str(plainFilePath).split('\\')[-1]
             filePhrase = str(filename).split('.')[0]
             extension = str(filename).split('.')[-1]
+            
+            # If the same filename exists in destination procceed to rename
             if os.path.isfile(destination + filename):
                 print('Same Filename Found in Destination')
+                # Start loop of renaming until filename doesn't exist in destination
                 while os.path.isfile(destination + filename):
                     rename = filePhrase + '-' + str(x) + '.' + extension
                     print('Filename:', filename, 'Already Exists in:', destination)
