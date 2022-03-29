@@ -19,13 +19,11 @@ def compare_fnames(selected, destination):
             fname = file.split('.')[0]
             ext =  '.' + file.split('.')[-1]
             new_fname = fname + '-' + str(fcount) + ext
-
             print(f'- filename: {file} already exists \n- in: {destination+file}')
 
             while os.path.isfile(destination + file):
                 time.sleep(0.5)
                 new_fname = fname + '-' + str(fcount) + ext
-                
                 print(f'+ Renaming filename to: {new_fname}')
 
                 if os.path.isfile(destination + new_fname) is False:
@@ -33,7 +31,6 @@ def compare_fnames(selected, destination):
                     break
 
                 fcount += 1
-
             else:
                 pass
                 
