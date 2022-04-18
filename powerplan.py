@@ -1,5 +1,16 @@
 #! python3
-# powerplan.py - changing power plans depending on the cpu load
+# powerplan.py - changing power plans depending on the cpu load\
+
+
+# Instruction
+# 1. Install Python from https://www.python.org/downloads/ (add to path, install for all users)
+# 2. CMD : pip install psutil
+# 4. CMD : pip install requests
+# 5. CMD : pip install pywin32
+# 6. CMD : pip install win10toast
+# 7. regegit Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run (create new String Value (fullpathofscriptVBS))
+# 8. CMD powercfg /list
+
 
 import psutil
 import time
