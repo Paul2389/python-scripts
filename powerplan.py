@@ -45,7 +45,7 @@ def high_cpu():
             command_output = subprocess.run(["powercfg","-getactivescheme"], capture_output = True).stdout.decode()
             # If Balanced is active call High Performance
             if re.search(BALANCED, command_output):
-                         subprocess.call("powercfg /s" + HIGH_PERFORMANCE)
+                         subprocess.call(["powercfg", "/s", HIGH_PERFORMANCE])
                         # Show notification
                          toast.show_toast("Power Plan", "Gaming Mode, High Performance.", duration=10)
                          break
@@ -68,7 +68,7 @@ def low_cpu():
             command_output = subprocess.run(["powercfg","-getactivescheme"], capture_output = True).stdout.decode()
             # If High Performance is active call Balanced
             if re.search(HIGH_PERFORMANCE , command_output):
-                         subprocess.call("powercfg /s" + BALANCED)
+                         subprocess.call(["powercfg", "/s", BALANCED])
                          # Show notification
                          toast.show_toast("Power Plan", "Balanced Mode, BALANCED.", duration=10)
                          break
